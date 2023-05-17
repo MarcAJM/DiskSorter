@@ -27,9 +27,9 @@ def update_display(speed, white_disks, black_disks, error_message):
         draw = ImageDraw.Draw(image)
         font = ImageFont.truetype("../fonts/font1.ttf", 50)
 
-        draw.text((5, 5), 'Speed:' + speed, fill = 'BLUE',font=font) # Line for the speed of the conveyor belt
-        draw.text((5, 65), 'White disks:' + white_disks, fill = 'BLUE',font=font) # Line for the amount of white disks in bin
-        draw.text((5, 125), 'Black disks:' + black_disks, fill = 'BLUE',font=font) # Line for the amount of black disks in bin
+        draw.text((5, 5), 'Speed: ' + speed, fill = 'BLUE',font=font) # Line for the speed of the conveyor belt
+        draw.text((5, 65), 'White disks: ' + white_disks, fill = 'BLUE',font=font) # Line for the amount of white disks in bin
+        draw.text((5, 125), 'Black disks: ' + black_disks, fill = 'BLUE',font=font) # Line for the amount of black disks in bin
         draw.text((5, 185), error_message, fill = 'RED',font=font) # Line for error description
 
         display.ShowImage(image)
