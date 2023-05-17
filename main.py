@@ -1,16 +1,6 @@
-from gpiozero import Motor
+from gpiozero import OutputDevice
 from time import sleep
 
-motor = Motor(2)
+motor = OutputDevice(2)
 
-time = input("Sleep time: ")
-
-while True:
-    motor.forward()
-    sleep(float(time))
-    motor.stop()
-    sleep(float(time))
-    motor.backward
-    sleep(float(time))
-    motor.stop()
-    sleep(float(time))
+motor.on()
