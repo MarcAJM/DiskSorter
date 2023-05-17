@@ -21,7 +21,7 @@ display.Init()     # Initialize library.
 display.clear()    # Clear display.
 
 # Everytime the screen needs to get an update call this method:
-def updateDisplay(speed, white_disks, black_disks, error_message):
+def update_display(speed, white_disks, black_disks, error_message):
     try:
         image = Image.new("RGB", (display.width, display.height), "WHITE")    # Create blank image for drawing.
         draw = ImageDraw.Draw(image)
