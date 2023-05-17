@@ -4,7 +4,9 @@ from time import sleep
 in1 = 5
 in2 = 6
 en = 26
-temp1=1
+temp1= 1
+
+speed = 25
 
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(in1,GPIO.OUT)
@@ -13,7 +15,7 @@ GPIO.setup(en,GPIO.OUT)
 GPIO.output(in1,GPIO.LOW)
 GPIO.output(in2,GPIO.LOW)
 p=GPIO.PWM(en,1000)
-p.start(25)
+p.start(speed)
 print("The default speed & direction of motor is LOW & Forward.....")
 print("r-run s-stop f-forward b-backward l-low m-medium h-high vh-very high e-exit")
 print("\n")    
@@ -56,23 +58,27 @@ while(1):
         x='z'
 
     elif x=='l':
+        speed = 25
         print("low")
-        p.ChangeDutyCycle(25)
+        p.ChangeDutyCycle(speed)
         x='z'
 
     elif x=='m':
+        speed = 50
         print("medium")
-        p.ChangeDutyCycle(50)
+        p.ChangeDutyCycle(speed)
         x='z'
 
     elif x=='h':
+        speed = 75
         print("high")
-        p.ChangeDutyCycle(75)
+        p.ChangeDutyCycle(speed)
         x='z'
 
     elif x=='vh':
+        speed = 100
         print("very high")
-        p.ChangeDutyCycle(100)
+        p.ChangeDutyCycle(speed)
         x='z'
 
     elif x=='e':
