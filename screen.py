@@ -30,7 +30,7 @@ try:
     image = Image.new("RGB", (disp.width, disp.height), "WHITE")
     draw = ImageDraw.Draw(image)
     Font3 = ImageFont.truetype("../Font/Font02.ttf", 32)
-    draw.text((5, 5), 'Speed: Maximum', fill = "#6C3483",font=Font3)
+    draw.text((5, 5), 'Speed: Maximum', fill = 'BLUE',font=Font3)
 
     disp.ShowImage(image)
     time.sleep(10)
