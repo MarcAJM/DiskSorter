@@ -8,7 +8,6 @@ import time
 import logging
 import spidev as SPI
 sys.path.append("..")
-from lib import LCD_1inch54
 from lib import LCD_1inch3
 from PIL import Image,ImageDraw,ImageFont
 
@@ -18,7 +17,6 @@ DC = 25
 BL = 18
 bus = 0 
 device = 0 
-logging.basicConfig(level=logging.DEBUG)
 
 try:
     # disp = LCD_1inch3.LCD_1inch3(spi=SPI.SpiDev(bus, device),spi_freq=10000000,rst=RST,dc=DC,bl=BL)
