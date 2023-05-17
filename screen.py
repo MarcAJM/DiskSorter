@@ -34,6 +34,7 @@ try:
 
     disp.ShowImage(image)
     time.sleep(10)
+    disp.clear()
     disp.module_exit()
 
 except IOError as e:
