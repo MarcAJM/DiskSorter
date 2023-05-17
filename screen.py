@@ -27,12 +27,12 @@ try:
     # Clear display.
     disp.clear()
     # Create blank image for drawing.
-    image1 = Image.new("RGB", (disp.width, disp.height), "WHITE")
-    draw = ImageDraw.Draw(image1)
-    Font3 = ImageFont.truetype("../Font/Font02.ttf",32)
-    draw.text((5, 5), 'Hey there', fill = "GREEN",font=Font3)
+    image = Image.new("RGB", (disp.width, disp.height), "BLACK")
+    draw = ImageDraw.Draw(image)
+    Font3 = ImageFont.truetype("../Font/Font02.ttf", 64)
+    draw.text((5, 5), 'Speed: x', fill = "Orange",font=Font3)
 
-    disp.ShowImage(image1)
+    disp.ShowImage(image)
     time.sleep(10)
     disp.module_exit()
 
