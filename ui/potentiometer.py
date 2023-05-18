@@ -1,19 +1,14 @@
 import RPi.GPIO as GPIO
 
-# Set the GPIO mode and channel
-GPIO.setmode(GPIO.BCM)
-pin = 17
+class Potentiometer:
+    
+    # Constructor:
+    def __init__(self, pin):
+        self.pin = pin
 
-# Set up the GPIO channel as an input
-GPIO.setup(pin, GPIO.IN)
-
-try:
-    while True:
-        # Read the analog input value
-        potentiometer_value = GPIO.input(pin)
-
-        # Calculate the speed based on the potentiometer value
-        speed = potentiometer_value / 10.23 
-
-finally:
-    GPIO.cleanup()
+        GPIO.setmode(GPIO.BCM)
+        GPIO.setup(self.pin, GPIO.IN)
+    
+    # Get the input:
+    def get_input(self):
+        return GPIO.input(self.pin)
