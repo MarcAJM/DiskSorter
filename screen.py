@@ -2,6 +2,9 @@ import os
 import sys 
 import time
 import logging
+import potentiometer
+import color_sensor
+import error_detection
 import spidev as SPI
 from lib import LCD_1inch3
 from PIL import Image,ImageDraw,ImageFont
@@ -42,3 +45,7 @@ def update_display(speed, white_disks, black_disks, error_message):
         display.module_exit()
         logging.info("quit:")
         exit()
+
+# Keep updating the display:
+while True:
+    update_display(potentiometer.speed, color_sensor.white_disks, color_sensor.black_disks, error_detection.error_message)

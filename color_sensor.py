@@ -1,6 +1,5 @@
 import board
 import adafruit_tcs34725
-import screen
 from time import sleep
 
 i2c = board.I2C()
@@ -16,16 +15,9 @@ while True:
     # Color is black:
     if sensor.color_rgb_bytes == (0, 0, 0):
         black_disks += 1
-        screen.update_display()
 
     # Color is white
     elif sensor.color_rgb_bytes == (255, 255, 255):
         white_disks += 1
-        screen.update_display()
-
-    # Not black nor white:
-    else:
-        screen.update_display()
-
 
     sleep(0.2)
