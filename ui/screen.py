@@ -49,3 +49,4 @@ def update_display(speed, white_disks, black_disks, error_message):
 # Keep updating the display:
 while True:
     update_display(potentiometer.speed, color_sensor.white_disks, color_sensor.black_disks, error_detection.error_message)
+    time.sleep(1)
