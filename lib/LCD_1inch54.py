@@ -3,17 +3,18 @@ import time
 sys.path.append('/home/marcajm/Desktop/DiskSorter/lib')
 import lcdconfig
 
-class LCD_1inch3(lcdconfig.RaspberryPi):
+class LCD_1inch54(lcdconfig.RaspberryPi):
 
     width = 240
     height = 240 
     def command(self, cmd):
         self.digital_write(self.DC_PIN, self.GPIO.LOW)
-        self.spi_writebyte([cmd])      
+        self.spi_writebyte([cmd])
+        
     def data(self, val):
         self.digital_write(self.DC_PIN, self.GPIO.HIGH)
         self.spi_writebyte([val])
-
+        
     def reset(self):
         """Reset the display"""
         self.GPIO.output(self.RST_PIN,self.GPIO.HIGH)
@@ -22,6 +23,7 @@ class LCD_1inch3(lcdconfig.RaspberryPi):
         time.sleep(0.01)
         self.GPIO.output(self.RST_PIN,self.GPIO.HIGH)
         time.sleep(0.01)
+        
     def Init(self):
         """Initialize dispaly"""  
         self.module_init()
@@ -136,7 +138,7 @@ class LCD_1inch3(lcdconfig.RaspberryPi):
         self.digital_write(self.DC_PIN,self.GPIO.HIGH)
         for i in range(0,len(pix),4096):
             self.spi_writebyte(pix[i:i+4096])		
-        
+    
     def clear(self):
         """Clear contents of image buffer"""
         _buffer = [0xff]*(self.width * self.height * 2)
