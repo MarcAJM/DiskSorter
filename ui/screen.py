@@ -3,10 +3,10 @@ import sys
 import time
 import logging
 import spidev as SPI
-from lib import LCD_1inch3
+sys.path.append('/home/marcajm/Desktop/DiskSorter/lib')
+import LCD_1inch54
+import LCD_1inch3
 from PIL import Image,ImageDraw,ImageFont
-
-sys.path.append("..")
 
 class Screen:
     
@@ -19,15 +19,15 @@ class Screen:
     # Everytime the screen needs to get an update call this method:
     def update_display(self, speed, white_disks, black_disks, error_message):
         try:
-            image = Image.new("RGB", (self.display.width, self.display.height), "WHITE") 
+            image = Image.new("RGB", (self.display.width, self.display.height), "BLACK") 
             draw = ImageDraw.Draw(image)
-            font = ImageFont.truetype("../fonts/font1.ttf", 50)
+            font = ImageFont.truetype("/home/marcajm/Desktop/DiskSorter/fonts/font1.ttf", 20)
 
             # Change the text:
-            draw.text((5, 5), 'Speed: ' + speed, fill = 'BLUE',font=font) 
-            draw.text((5, 65), 'White disks: ' + white_disks, fill = 'BLUE',font=font) 
-            draw.text((5, 125), 'Black disks: ' + black_disks, fill = 'BLUE',font=font) 
-            draw.text((5, 185), error_message, fill = 'RED',font=font) 
+            draw.text((5, 5), 'Speed: {}'.format(speed), fill = 'WHITE',font=font) 
+            draw.text((5, 35), 'White disks: {}'.format(white_disks), fill = 'WHITE',font=font) 
+            draw.text((5, 65), 'Black disks: {}'.format(black_disks), fill = 'WHITE',font=font) 
+            draw.text((5, 125), error_message, fill = 'RED',font=font) 
 
             # Display the image and exit:
             self.display.ShowImage(image)
