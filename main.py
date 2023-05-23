@@ -11,8 +11,8 @@ error_message = ""
 
 # Everything we need on the robot:
 conv_motor = motor.Motor(5, 6, 26, speed)
-solenoid_a = solenoid.Solenoid(4)
-solenoid_b = solenoid.Solenoid()
+solenoid_a = solenoid.Solenoid(4, 2)
+solenoid_b = solenoid.Solenoid(5, 2)
 color_sensor = color_sensor.Color_sensor()
 potentiometer = potentiometer.Potentiometer(17)
 screen = screen.Screen()
