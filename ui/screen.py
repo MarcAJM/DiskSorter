@@ -24,7 +24,7 @@ class Screen:
             font = ImageFont.truetype("/home/marcajm/Desktop/DiskSorter/fonts/font1.ttf", 20)
 
             # Change the text:
-            draw.text((5, 5), 'Speed: {}'.format(speed), fill = 'WHITE',font=font) 
+            draw.text((5, 5), 'Speed: {}%'.format(speed), fill = 'WHITE',font=font) 
             draw.text((5, 35), 'White disks: {}'.format(white_disks), fill = 'WHITE',font=font) 
             draw.text((5, 65), 'Black disks: {}'.format(black_disks), fill = 'WHITE',font=font) 
             draw.text((5, 125), error_message, fill = 'RED',font=font) 
