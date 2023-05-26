@@ -1,8 +1,8 @@
-Doccumentation as to which modules we're dividing the robot in
+Documentation as to which modules we're dividing the robot in
 
 For now we're going with:
  - Belt and motors
- - Light sensor
+ - Color sensor
  - Pistons
  - Raspberry Pi and Motoboard
  - Buttons

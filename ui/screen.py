@@ -17,7 +17,7 @@ class Screen:
         self.display.clear()    # Clear display.
 
     # Everytime the screen needs to get an update call this method:
-    def update_display(self, speed, white_disks, black_disks, error_message):
+    def update_display(self, speed, white_disks, black_disks, error_message, status_message):
         try:
             image = Image.new("RGB", (self.display.width, self.display.height), "BLACK") 
             draw = ImageDraw.Draw(image)
@@ -27,8 +27,8 @@ class Screen:
             draw.text((5, 5), 'Speed: {}%'.format(speed), fill = 'WHITE',font=font) 
             draw.text((5, 35), 'White disks: {}'.format(white_disks), fill = 'WHITE',font=font) 
             draw.text((5, 65), 'Black disks: {}'.format(black_disks), fill = 'WHITE',font=font) 
-            draw.text((5, 125), error_message, fill = 'RED',font=font) 
-
+            draw.text((5, 125), error_message, fill = 'RED',font=font)
+            draw.text((5, 155), status_message, fill = 'RED', font=font)
             # Display the image and exit:
             self.display.ShowImage(image)
             self.display.module_exit()
@@ -40,3 +40,7 @@ class Screen:
             self.display.module_exit()
             logging.info("quit:")
             exit()
+
+
+        
+

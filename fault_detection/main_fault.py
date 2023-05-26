@@ -19,27 +19,27 @@ default_manual = [
 ]
 
 buzzer_manual = [
-    "4: If the buzzer is beeping, the robot has been lifted. Place the robot on a solid surface."
+    "1: If the buzzer is beeping, the robot has been lifted. Place the robot on a solid surface."
 ]
 
 sensor_manual = [
-    "4: Check that the sensor isn't dirty"
-    "5: Check that the light level isn't too high or too low"
+    "1: Check that the sensor isn't dirty"
+    "2: Check that the light level isn't too high or too low"
 ]
 
 belt_manual = [ 
-    "4: Turn the belt on and check if there are any motors that aren't turning"
+    "1: Turn the belt on and check if there are any motors that aren't turning"
 ]
 
 rpi_manual = [
-    "4: Check that the RPi has power",
-    "5: Check that code runs on the RPi",
+    "1: Check that the RPi has power",
+    "2: Check that code runs on the RPi",
 ]
 
 pistons_manual = [
-    "4: Push the piston manually and let it go. It should fully push in and return to its original position upon release"
+    "1: Push the piston manually and let it go. It should fully push in and return to its original position upon release"
 ]
 
 buttons_manual = [
-    "4: Check that the buttons are in the correct order"
+    "1: Check that the buttons are in the correct order"
 ]
