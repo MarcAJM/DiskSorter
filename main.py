@@ -22,57 +22,102 @@ potentiometer = potentiometer.Potentiometer(17)
 screen = screen.Screen()
 # TODO: change gpio pin error_button = error_button.Error_button(10)
 
+
+
 # TODO: change gpio pin if GPIO.input(10) == GPIO.HIGH:
-#    error_boolean = True
 
 
-# if error_boolean:
-#   error_check()
+error_boolean = True
 
-# def error_check():
-#   error_message = 'Press the button once for 'no' and hold for 2 seconds for 'yes'. To continue, hold for 2 seconds. To exit error diagnostics, hold for 5 seconds'
-#   screen.update_display(speed, white_disks, black_disks, error_message, status_message)
-#   if GPIO.input(10) == GPIO.HIGH:
-#       time.sleep(2)
-#       if GPIO.input(10) == GPIO.HIGH:
-#           time.sleep(3)
-#               if GPIO.input(10) == GPIO.HIGH:
-#                   return
+if error_boolean:
+   error_check()
 
-# optimise the code below with a loop???
-#   error_message = 'Are there any external obstructions?'    
-#   screen.update_display(speed, white_disks, black_disks, error_message, status_message)
-#   button_state = button_state()
-#   if button_state == True:
-#       error_message = 'Remove any external obstructions from the robot'
-#       screen.update_display(speed, white_disks, black_disks, error_message, status_message)
-#           return
+def error_check():
 
-#   error_message = 'Is the buzzer beeping?'
-#   screen.update_display(speed, white_disks, black_disks, error_message, status_message)
-#   button_state = button_state()
-#   if button_state == True:
-#       error_message = 'The robot has been lifted. Place it on the surface.'
-#       screen.update_display(speed, white_disks, black_disks, error_message, status_message)
-#           return
-#   
-#   error_message = 'Is the belt running?'
-#   screen.update_display(speed, white_disks, black_disks, error_message, status_message)
-#   button_state = button_state()
-#   if button_state == True:
-#       error_message = 'Turn the belt on and check if there are any motors that aren't turning.'
-#       screen.update_display(speed, white_disks, black_disks, error_message, status_message)
-#           return   
-#                   
-#           
-# def button_state():
-#   if GPIO.input(10) == GPIO.HIGH:
-#       time.sleep(2)
-#           if GPIO.input(10) == GPIO.HIGH:
-#               return True
-#           else:
-#               return False
-#               
+    module_message = [
+        "1: Are you having a problem with the buzzer?",
+        "2: Are you having a problem with the belt?",
+        "3: Are you having problems with sorting?",
+    ]
+
+    buzzer_error = [
+        "1.1: Is the buzzer beeping when the system is grounded?",
+        "1.2: Is the buzzer not beeping when the system is midair?",
+        "1.3: Is the buzzer not beeping continuously?",
+        " ",
+        "2.1: Is the belt struggling to move fast enough?",
+        "2.2: Is the belt not moving continuously?",
+        "2.3: Is the belt not in place and stretched on the gears?"
+        " ",
+        "3.1: Are the LEDs of the color sensor working?",
+        "3.2: Is the color sensor dirty or obstructed?",
+        "3.3: Are the pistons working at all?",
+        " ",
+        "0: It seems like there are external obstructions."
+    ]
+
+    solution_message = [
+        "1.1: Check if the conductive part is stuck.",
+        "1.2: Check the wiring and check if the conductive part is stuck.",
+        "1.3: Check the wiring.",
+        " ",
+        "2.1: Turn up the speed dial as necessary; if the battery is low, replace it.",
+        "2.2: Check the motor-belt connection and fix the wiring.",
+        "2.3: Align the belt with the gears.",
+        " ",
+        "3.1: For more accuracy, temporarily use the flashlight of your phone from an appropriate distance.",
+        "3.2: Clean the color sensor and remove any obstructions.",  
+        "3.3: Check the connections with the pistons.",
+        " ",
+        "0: Remove any external obstructions, then restart/resume the system."
+    ]
+
+
+    error_message = "You have entered error diagnostics. 'no': press button once; 'yes': hold for 2 seconds. To exit error diagnostics, hold for 5 seconds. Wait 5 seconds to continue."
+    screen.update_display(speed, white_disks, black_disks, error_message, status_message)
+    if GPIO.input(10) == GPIO.HIGH:
+        time.sleep(5)
+        if GPIO.input(10) == GPIO.HIGH:
+            return
+        else: 
+
+            #functionality is implemented in the following code
+            error_message = "To continue, press once"
+            screen.update_display(speed, white_disks, black_disks, error_message, status_message)
+            #button_state()    
+
+    for i in range(1, len(module_message)):
+        if button_state():
+            screen.update_display(speed, white_disks, black_disks, module_message[i - 1], status_message)
+        else:
+            startIndex = 0
+            endIndex = 0
+
+            #iterates through the specified problems of the selected module 
+            for j in range(startIndex, endIndex):
+                screen.update_display(speed, white_disks, black_disks, solution_message[j], status_message) #asks the first question
+
+                #selects whether the next error message is displayed or the solution to the current error is displayed
+                if button_state():
+                    screen.update_display(speed, white_disks, black_disks, solution_message[j + 1], status_message)   
+                else:
+                    screen.update_display(speed, white_disks, black_disks, error_message[j], status_message)
+                           
+    def button_state():
+        if GPIO.input(10) == GPIO.HIGH:
+            time.sleep(2)
+            if GPIO.input(10) == GPIO.HIGH:
+                #button pressed for 2 seconds
+                return True
+            else:
+                #button pressed momentarily
+                return False
+        time.sleep(0.05)
+        button_state
+        
+       
+       
+
 
 # This while loop updates everything of the robot:
 while True:    
