@@ -1,17 +1,28 @@
-from components import motor, solenoid
-# from components import error_button
+from components import motor, solenoid, button
 from sensors import color_sensor
 from ui import potentiometer, screen
 from time import sleep
 
+#constants
+#60s running = 19 + 25/60 revolutions
+#20 segments = 19.3cm
+#belt = 60 segments
+# ==> belt = 57.9cm
+# 57.9cm * (19+25/60) / 60s = 18.73cm/s belt speed at 9V
+
+# 1/belt speed = 0.0534s/cm
+# --> * DISTANCE FROM SENSOR TO PISTON (cm) = TIME DELAY (s)
+
 # Some important initial variables:
 speed = 100
-white_disks = 0
+white_disks = 0 
 black_disks = 0
 error_message = "Press the button to run error diagnostics."
 status_message = ""
-# error_boolean = False
-# button_state = False
+defaultRGB = [150, 0, 0] #to be determined later by testing
+
+error_boolean = False
+button_state = False
 
 # Everything we need on the robot:
 conv_motor = motor.Motor(5, 6, 26, speed)
@@ -20,20 +31,26 @@ solenoid_b = solenoid.Solenoid(5, 2)
 color_sensor = color_sensor.Color_sensor()
 potentiometer = potentiometer.Potentiometer(17)
 screen = screen.Screen()
-# TODO: change gpio pin error_button = error_button.Error_button(10)
+# TODO: change gpio pin 
+button = button.Button(10)
 
 
 
-# TODO: change gpio pin if GPIO.input(10) == GPIO.HIGH:
+#***************************
+#     FAULT DETECTION
+#****************************
 
-
-error_boolean = True
+if GPIO.input(10) == GPIO.HIGH:
+    error_boolean = True
 
 if error_boolean:
-   error_check()
+    error_check()
 
+# Checks if there have been any errors, which the user will identify with a guide. 
+# The user will do so by observing messages on the screen and pressing a button to navegate through the guide. 
 def error_check():
 
+    #arary variables with all the possible error messages and appropriate solutions to each error
     module_message = [
         "1: Are you having a problem with the buzzer?",
         "2: Are you having a problem with the belt?",
@@ -72,7 +89,7 @@ def error_check():
         "0: Remove any external obstructions, then restart/resume the system."
     ]
 
-
+    #functionality: implements the display of messages and choice of messages 
     error_message = "You have entered error diagnostics. 'no': press button once; 'yes': hold for 2 seconds. To exit error diagnostics, hold for 5 seconds. Wait 5 seconds to continue."
     screen.update_display(speed, white_disks, black_disks, error_message, status_message)
     if GPIO.input(10) == GPIO.HIGH:
@@ -113,10 +130,15 @@ def error_check():
                 #button pressed momentarily
                 return False
         time.sleep(0.05)
-        button_state
+        button_state()
         
        
+
+
        
+#************************************
+#        COLOUR DISTINCTION
+#************************************
 
 
 # This while loop updates everything of the robot:
@@ -131,18 +153,38 @@ while True:
     rgb = color_sensor.get_rgb()
     if rgb < (50, 50, 50):  # Color is black
         black_disks += 1
+        status_message = 'The object is black.'
+        screen.update_display(speed, white_disks, black_disks, error_message, status_message)
         solenoid_a.push(0.2)
 
     elif rgb > (205, 205, 205):  # Color is white
         white_disks += 1
-        solenoid_a.push(0.2)
+        status_message = 'The object is white.'
+        screen.update_display(speed, white_disks, black_disks, error_message, status_message)
+        solenoid_b.push(0.2)
 
+    elif rgb.index(max(rgb)) == 0 and rgb <= (205, 205, 205): # Color is green
+        status_message = 'The object is green.'
+        screen.update_display(speed, white_disks, black_disks, error_message, status_message)
     else:
-        status_message = "UNKNOWN OBJECT"
+        match rgb.index(max(rgb)):
+            case 1:
+                status_message = 'The object is green.'
+                screen.update_display(speed, white_disks, black_disks, error_message, status_message)
+            case 2:
+                status_message = 'The object is blue.'
+                screen.update_display(speed, white_disks, black_disks, error_message, status_message)
+            case _:
+                if (rgb != defaultRGB):
+                    status_message = "The object is red"
+                    screen.update_display(speed, white_disks, black_disks, error_message, status_message)
+            
+        status_message = "Unknown or red OBJECT"
         
     # TODO: We need to find the color that it will measure when there is no object in front of the sensor.
     #       This will be the normal situation and nothing will be done here.
         
 
+    
     screen.update_display(speed, white_disks, black_disks, error_message, status_message)
     sleep(0.1) # Wait a little

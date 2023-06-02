@@ -1,6 +1,6 @@
 import RPI.GPIO as GPIO
 
-class Button1():
+class Button():
 
     def __init__(self, in1):
         self.in1 = in1

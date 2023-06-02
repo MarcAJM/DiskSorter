@@ -1,0 +1,7 @@
+To use a simulation of the circuit:
+
+1. Open falstad.com 
+2. Click on "circuit simulator"
+3. Click on file --> import from text 
+4. Copy and paste a versio (prefferably the latest) into the dialog.
+5. To adjust the circuit, click on the switch to close the circuit and adjust the "Light Brightness" slider 

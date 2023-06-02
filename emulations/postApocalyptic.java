@@ -13,7 +13,7 @@ class postApocalyptic {
     boolean TDRisClosed;
 
     postApocalyptic() {
-
+        
     }
 
 
