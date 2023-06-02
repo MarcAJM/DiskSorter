@@ -2,6 +2,7 @@ from components import motor, solenoid, button
 from sensors import color_sensor
 from ui import potentiometer, screen
 from time import sleep
+import time
 
 #constants
 #60s running = 19 + 25/60 revolutions
