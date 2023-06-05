@@ -188,4 +188,4 @@ while True:
 
     
     screen.update_display(speed, white_disks, black_disks, error_message, status_message)
-    sleep(0.1) # Wait a little
+    time.sleep(0.1) # Wait a little
