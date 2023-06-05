@@ -29,6 +29,7 @@ class Screen:
             draw.text((5, 65), 'Black disks: {}'.format(black_disks), fill = 'WHITE',font=font) 
             draw.text((5, 125), error_message, fill = 'RED',font=font)
             draw.text((5, 155), status_message, fill = 'RED', font=font)
+            
             # Display the image and exit:
             self.display.ShowImage(image)
             self.display.module_exit()

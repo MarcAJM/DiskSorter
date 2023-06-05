@@ -1,30 +1,24 @@
-import RPi.GPIO as GPIO
-import time
+## import spidev
 
-GPIO.setmode(GPIO.BCM)
+# Set up SPI communication
+## spi = spidev.SpiDev()
+## spi.open(0, 0)  # spi.open(bus, device)
 
-pin_a = 18
-pin_b = 24
+    # MCP3008 command format: [start bit, single-ended/differential, channel number, 'don't care' bit]
+# def read_potentiometer():
+#     command = [1, (8 + 0) << 4, 0]
+#     # Send the command and receive the response
+# 
+#     response = spi.xfer2(command)    # Extract the ADC value from the response
+#     adc_value = ((response[1] & 3) << 8) + response[2]
+# 
+# 
+#     # Convert the ADC value to a voltage (assuming 3.3V reference voltage)
+#     voltage = adc_value * 3.3 / 1023
+# 
+#     # Return the voltage value
+#     return voltage
 
-def discharge():
-    GPIO.setup(pin_a, GPIO.IN)
-    GPIO.setup(pin_b, GPIO.OUT)
-    GPIO.output(pin_b, False)
-    time.sleep(0.004)
-
-def charge_time():
-    GPIO.setup(pin_b, GPIO.IN)
-    GPIO.setup(pin_a, GPIO.OUT)
-    count = 0
-    GPIO.output(pin_a, True)
-    while not GPIO.input(b_pin):
-        count = count + 1
-    return count
-
-def analog_read():
-    discharge()
-    return charge_time()
-
-while True:
-    print(analog_read())
-    time.sleep(1)
+# while True:
+#    pot_value = read_potentiometer()
+#    print("Potentiometer Value: {:.2f}V".format(pot_value))

@@ -17,7 +17,12 @@ class Solenoid:
     # TODO: May not be correct.
     # Push solenoid:
     def push(self, delay):
-        sleep(delay)
         GPIO.output(self.in1, GPIO.LOW)
-        sleep(0.05)
+        sleep(delay)
         GPIO.output(self.in1, GPIO.HIGH)
+
+    def testSolenoid(time):
+        for x in range (0, time):
+            GPIO.output(self.in1, GPIO.LOW)
+            
+        

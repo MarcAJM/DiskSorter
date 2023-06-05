@@ -12,3 +12,5 @@ class Potentiometer:
     # Get the input:
     def get_input(self):
         return GPIO.input(self.pin)
+    
+    
