@@ -8,71 +8,158 @@ class Main:
 
     def run(self):
         # Instantiate the subclasses
-        motor1 = Motor1()
-        motor2 = Motor2()
-        motor3 = Motor3()
-        colorsensor = ColorSensor()
-        screen = Screen()
-        potentiometer = Potentiometer()
+        helper = Helper()
+        #motor2 = Motor2()
+        #motor3 = Motor3()
+        #colorsensor = ColorSensor()
+        #screen = Screen()
+        #potentiometer = Potentiometer()
 
         #actual code
 
         z = True
 
         #run main belt
-        motor1.m1()
+        #motor1.m1()
 
         while (z):
-            colorsensor.cs() #run color sensor
+            x = input()
+            
+            if x=='r':
+                helper.m1() 
+                #motor2.m2()
+                x = 'z'
+            
+            if x == 'e':
+                z = False
+                GPIO.cleanup() #exit program 
+                break
+            #colorsensor.cs() #run color sensor
 
             #rgb values retrieved
-            red = colorsensor.red
-            green = colorsensor.green()
-            blue = colorsensor.blue()
+            #red = colorsensor.red
+            #green = colorsensor.green()
+            #blue = colorsensor.blue()
 
             #if statement
-            if red == 1000 & blue == 10 & green == 5: #CHANGE this based on testing
-                red = 10 #CHANGE THIS TO INCOPERATE RUNNING THE OTHER MOTORS TO PUSH
+            #if red == 1000 & blue == 10 & green == 5: #CHANGE this based on testing
+                #red = 10 #CHANGE THIS TO INCOPERATE RUNNING THE OTHER MOTORS TO PUSH
             
             #ADD CODE TO UPDATE SCREEN
 
             #code to terminate belt if something happens
-            GPIO.output(motor1.in1,GPIO.LOW)
-            GPIO.output(motor1.in2,GPIO.LOW)
+            #GPIO.output(motor1.in1,GPIO.LOW)
+            #GPIO.output(motor1.in2,GPIO.LOW)
     
-class Motor1:
-
+class Helper:
+    
+    #pins motor1 (helper class)
     in1 = 5 #input 1 pin
     in2 = 6 #input 2 pin
     en = 26 #enable pin
     temp1= 1 #temporary variable (to alter the speed of the motor etc.)
     speed = 100 #speed of the motor
+    
+    
+    #colorsensor
+    #colorsensor = Colorsensor()
+    
 
     def m1(self):
 
         GPIO.setmode(GPIO.BCM)
-        GPIO.setup(Motor1.in1,GPIO.OUT) 
-        GPIO.setup(Motor1.in2,GPIO.OUT)
-        GPIO.setup(Motor1.en,GPIO.OUT)
-        GPIO.output(Motor1.in1,GPIO.LOW)
-        GPIO.output(Motor1.in2,GPIO.LOW)
-        p=GPIO.PWM(Motor1.en,1000)
+        GPIO.setup(Helper.in1,GPIO.OUT) 
+        GPIO.setup(Helper.in2,GPIO.OUT)
+        GPIO.setup(Helper.en,GPIO.OUT)
+        GPIO.setup(Motor2.in1, GPIO.OUT)
+        GPIO.setup(Motor2.in2,GPIO.OUT)
+        GPIO.setup(Motor2.en,GPIO.OUT)
+        
+        
+        GPIO.output(Helper.in1,GPIO.LOW)
+        GPIO.output(Helper.in2,GPIO.LOW)
+        
+        GPIO.output(Motor2.in1,GPIO.LOW)
+        GPIO.output(Motor2.in2,GPIO.LOW)
+        
+        p1=GPIO.PWM(Helper.en,1000)
+        p1.start(25)
+        
+        p2=GPIO.PWM(Motor2.en,1000)
+        p2.start(25)
+        
+        kleur = ColorSensor()
+        
+        #run the colorsensor code
+        #colorsensor.cs()
+
+        #start the motor
+        
+        #r = ColorSensor.red
+        #g = ColorSensor.green
+        #b = Colorsensor.blue
+        
+        k = 0
+        
+        while k < 20:
+            
+            #colorsensor = ColorSensor()
+        
+            #run the colorsensor code
+            kleur.cs()
+
+            #start the motor
+        
+            r = ColorSensor.red
+            g = ColorSensor.green
+            b = ColorSensor.blue
+            
+            print(r)
+            print(g)
+            print(b)
+            
+            GPIO.output(Helper.in1,GPIO.HIGH)
+            GPIO.output(Helper.in2,GPIO.LOW)
+            GPIO.output(Motor2.in1,GPIO.LOW)
+            GPIO.output(Motor2.in2,GPIO.LOW)
+            p1.ChangeDutyCycle(Helper.speed)
+            time.sleep(0.1)
+        
+            if (18000 < r < 32000) and (22000 < b < 31000) and (21000 < g < 27000):
+                GPIO.output(Helper.in1,GPIO.HIGH)
+                GPIO.output(Helper.in2,GPIO.LOW)
+                GPIO.output(Motor2.in1,GPIO.HIGH)
+                GPIO.output(Motor2.in2,GPIO.LOW)
+                p2.ChangeDutyCycle(Motor2.speed)
+                
+                time.sleep(2)
+                
+            k = k + 1
+
+
+class Motor2:
+    
+    in1 = 23 #input 1 pin
+    in2 = 24 #input 2 pin
+    en = 25 #enable pin
+    temp1= 1 #temporary variable (to alter the speed of the motor etc.)
+    speed = 100
+
+    def m2(self):
+        GPIO.setmode(GPIO.BCM)
+        GPIO.setup(Motor2.in1,GPIO.OUT) 
+        GPIO.setup(Motor2.in2,GPIO.OUT)
+        GPIO.setup(Motor2.en,GPIO.OUT)
+        GPIO.output(Motor2.in1,GPIO.LOW)
+        GPIO.output(Motor2.in2,GPIO.LOW)
+        p=GPIO.PWM(Motor2.en,1000)
         p.start(25)
 
         #start the motor
-        GPIO.output(Motor1.in1,GPIO.HIGH)
-        GPIO.output(Motor1.in2,GPIO.LOW)
-        p.ChangeDutyCycle(Motor1.speed)
-
-class Motor2:
-
-    def m2(self):
-        print("This is a method of Motor2")
-
-class Motor3:
-
-    def m3(self):
-        print("This is method of Motor3")
+        GPIO.output(Motor2.in1,GPIO.HIGH)
+        GPIO.output(Motor2.in2,GPIO.LOW)
+        p.ChangeDutyCycle(Motor2.speed)
+        time.sleep(10)
 
 class ColorSensor:
     red = 0
@@ -80,9 +167,9 @@ class ColorSensor:
     green = 0
 
     def cs(self):
-        s2 = 23 #pins can change
-        s3 = 24 #pins can change
-        signal = 25 #pins can change
+        s2 = 17 #pins can change
+        s3 = 27 #pins can change
+        signal = 22 #pins can change
         NUM_CYCLES = 10
 
         #setup the pins and stuff
