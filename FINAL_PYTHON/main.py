@@ -26,7 +26,7 @@ class Main:
             x = input() #take keyboard input
             
             if x=='r':
-                Helper.m1() #run helper class method
+                Helper.m1(self) #run helper class method
                 x = 'z'
             
             if x == 'e':
@@ -46,16 +46,16 @@ class Helper:
         #motor3 (Motor3) --> sorts the white disks
 
         #setup the motors so they operate
-        SetupMotors.setupm1m2m3()
+        SetupMotors.setupm1m2m3(self)
 
         #variable for while loop
         k = 0
         
         #while loop to run the belt
-        while k < 50: 
+        while k < 100: 
 
             #run colorsensor class
-            ColorSensor.cs()
+            ColorSensor.cs(self)
 
             #retrieve rgb values from running colorsensor class
             r = ColorSensor.red
@@ -68,20 +68,20 @@ class Helper:
             print("green value - ",g, "/n") #prints G value
             
             #indefinitely run motor1 with motor2 and motor3 off
-            Motor1.runm1()
-            Motor2.stopm2()
-            Motor3.stopm3()
+            Motor1.runm1f(self)
+            Motor2.stopm2(self)
+            Motor3.stopm3(self)
             time.sleep(0.01)
         
             #if black then jump to another part in the code
             if (18000 < r < 32000) and (22000 < b < 31000) and (21000 < g < 27000): #check this based on environment later
                 
-                Black.blackdetected()
+                Black.blackdetected(self)
 
             #if white then jump to another part in the code
             elif (18000 < r < 32000) and (22000 < b < 31000) and (21000 < g < 27000): #check this based on environment later
                 
-                White.whitedetected()
+                White.whitedetected(self)
 
             else:
                 #increment k for the while loop
@@ -99,16 +99,24 @@ class Motor1:
     #speed control motor1
     p1 = 0
 
-    #run motor1
-    def runm1():
+    #run motor1 in forward direction
+    def runm1f(self):
 
         #run the motor at maximum speed
         GPIO.output(Motor1.in1, GPIO.HIGH)
         GPIO.output(Motor1.in2, GPIO.LOW)
         Motor1.p1.start(100)
     
+    #run motor1 in backward direction
+    def runm1b(self):
+
+        #run the motor at maximum speed
+        GPIO.output(Motor1.in1, GPIO.LOW)
+        GPIO.output(Motor1.in2, GPIO.HIGH)
+        Motor1.p1.start(100)
+    
     #stop motor1
-    def stopm1():
+    def stopm1(self):
 
         #stop the motor immediately
         Motor1.p1.stop()
@@ -128,16 +136,24 @@ class Motor2:
     #speed control motor2
     p2 = 0
 
-    #run motor2
-    def runm2():
+    #run motor2 in forward direction
+    def runm2f(self):
 
         #run the motor at maximum speed
         GPIO.output(Motor2.in1, GPIO.HIGH)
         GPIO.output(Motor2.in2, GPIO.LOW)
         Motor2.p2.start(100)
     
+    #run motor2 in backward direction
+    def runm2b(self):
+
+        #run the motor at maximum speed
+        GPIO.output(Motor2.in1, GPIO.LOW)
+        GPIO.output(Motor2.in2, GPIO.HIGH)
+        Motor2.p2.start(100)
+    
     #stop motor2
-    def stopm2():
+    def stopm2(self):
 
         #stop the motor immediately
         Motor2.p2.stop()
@@ -157,16 +173,24 @@ class Motor3:
     #speed control motor3
     p3 = 0
 
-    #run motor3
-    def runm3():
+    #run motor3 in forward direction
+    def runm3f(self):
 
         #run the motor at maximum speed
         GPIO.output(Motor3.in1, GPIO.HIGH)
         GPIO.output(Motor3.in2, GPIO.LOW)
         Motor3.p3.start(100)
+
+    #run motor3 in backward direction
+    def runm3b(self):
+
+        #run the motor at maximum speed
+        GPIO.output(Motor3.in1, GPIO.LOW)
+        GPIO.output(Motor3.in2, GPIO.HIGH)
+        Motor3.p3.start(100)
     
     #stop motor3 
-    def stopm3():
+    def stopm3(self):
 
         #stop the motor immediately
         Motor3.p3.stop()
@@ -176,7 +200,7 @@ class Motor3:
 
 class Black:
 
-    def blackdetected():
+    def blackdetected(self):
         
         #variable for while loop
         k = 0
@@ -185,7 +209,7 @@ class Black:
         while k < 50: #TIME THIS
 
             #run colorsensor class
-            ColorSensor.cs()
+            ColorSensor.cs(self)
 
             #retrieve rgb values from running colorsensor class
             r = ColorSensor.red
@@ -200,22 +224,22 @@ class Black:
             #turn motor1 to slide disk into bin
             if k < 5: #time this
 
-                Motor1.runm1()
-                Motor2.runm2()
-                Motor3.stopm3()
+                Motor1.runm1f(self)
+                Motor2.runm2f(self)
+                Motor3.stopm3(self)
                 time.sleep(0.01)
 
-            if k > 15: #time this
+            if k > 45: #time this
 
-                Motor1.runm1()
-                Motor2.stopm2()
-                Motor3.stopm3()
+                Motor1.runm1f(self)
+                Motor2.runm2b(self)
+                Motor3.stopm3(self)
                 time.sleep(0.01)
 
             #if black then jump to another part in the code
             if (18000 < r < 32000) and (22000 < b < 31000) and (21000 < g < 27000): #check this based on environment later
                 
-                Black.blackdetected() #recurse the same code again
+                Black.blackdetected(self) #recurse the same code again
 
             #if white then jump to another part in the code
             elif (18000 < r < 32000) and (22000 < b < 31000) and (21000 < g < 27000): #check this based on environment later
@@ -228,7 +252,7 @@ class Black:
 
 class White:
 
-    def whitedetected():
+    def whitedetected(self):
         
         #variable for while loop
         k = 0
@@ -237,7 +261,7 @@ class White:
         while k < 50: #TIME THIS
 
             #run colorsensor class
-            ColorSensor.cs()
+            ColorSensor.cs(self)
 
             #retrieve rgb values from running colorsensor class
             r = ColorSensor.red
@@ -252,16 +276,16 @@ class White:
             #turn motor1 to slide disk into bin
             if k < 5: #time this
 
-                Motor1.runm1()
-                Motor2.stopm2()
-                Motor3.runm3p()
+                Motor1.runm1f(self)
+                Motor2.stopm2(self)
+                Motor3.runm3f(self)
                 time.sleep(0.01)
 
             if k > 35: #time this
 
-                Motor1.runm1()
-                Motor2.stopm2()
-                Motor3.stopm3()
+                Motor1.runm1f(self)
+                Motor2.stopm2(self)
+                Motor3.runm3b(self)
                 time.sleep(0.01)
 
             #if black then jump to another part in the code
@@ -272,7 +296,7 @@ class White:
             #if white then jump to another part in the code
             elif (18000 < r < 32000) and (22000 < b < 31000) and (21000 < g < 27000): #check this based on environment later
                 
-                White.whitedetected() #recurse the same code again
+                White.whitedetected(self) #recurse the same code again
 
             else:
                 #increment k for the while loop
@@ -281,7 +305,7 @@ class White:
 class SetupMotors:
 
     #setup all the motors simultaneously
-    def setupm1m2m3():
+    def setupm1m2m3(self):
         
         #to setup pins
         GPIO.setmode(GPIO.BCM)
@@ -330,7 +354,7 @@ class ColorSensor:
     blue = 0
     green = 0
 
-    def cs():
+    def cs(self):
         s2 = 2 #pins can change
         s3 = 3 #pins can change
         signal = 4 #pins can change
